@@ -68,6 +68,11 @@ app.get('/test', (req, res) => {
     res.json({ message: 'Backend is working!' });
 });
 
+app.get('/', (req, res) => {
+    res.send('Welcome to the backend API');
+});
+
+
 app.get('/posts', async (req, res) => {
     const posts = await Post.find({ user: { $ne: null } }).populate('user');
     res.json(posts);
