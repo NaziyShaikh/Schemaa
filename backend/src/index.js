@@ -8,13 +8,14 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(bodyParser.json());
 
-// MongoDB connection of mine
-mongoose.connect('mongodb://localhost:27017/mydatabase', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-})
+console.log('MongoDB URI:', process.env.MONGODB_URI);
+const mongoURI = 'mongodb+srv://naziya:wvUfuGUHt26GYPd@cluster0.oswlq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+
+mongoose.connect(mongoURI)
 .then(() => console.log('MongoDB connected'))
 .catch(err => console.error('MongoDB connection error:', err));
+
+
 
 const { User, Post } = require('./models');
 
@@ -51,9 +52,6 @@ app.delete('/posts/:id', async (req, res) => {
     }
 });
 
-
-
-
 app.post('/posts', async (req, res) => {
     try {
         const { title, content, userId } = req.body;
@@ -70,13 +68,10 @@ app.get('/test', (req, res) => {
     res.json({ message: 'Backend is working!' });
 });
 
-
-
 app.get('/posts', async (req, res) => {
     const posts = await Post.find({ user: { $ne: null } }).populate('user');
     res.json(posts);
 });
-
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
