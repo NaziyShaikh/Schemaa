@@ -5,14 +5,31 @@ const PostForm = ({ users, onPostAdded }) => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [userId, setUserId] = useState('');
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [success, setSuccess] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const response = await axios.post('http://localhost:5000/posts', { title, content, userId });
-        onPostAdded(response.data);
-        setTitle('');
-        setContent('');
-        setUserId('');
+        setError('');
+        setSuccess('');
+        setLoading(true);
+        try {
+            const response = await axios.post('https://schemaa.onrender.com/posts', { title, content, userId });
+            onPostAdded(response.data);
+            setTitle('');
+            setContent('');
+            setUserId('');
+            setSuccess('Post added successfully!');
+        } catch (err) {
+            if (err.response && err.response.data && err.response.data.error) {
+                setError(err.response.data.error);
+            } else {
+                setError('Failed to add post');
+            }
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -25,7 +42,11 @@ const PostForm = ({ users, onPostAdded }) => {
                     <option key={user._id} value={user._id}>{user.name}</option>
                 ))}
             </select>
-            <button type="submit">Add Post</button>
+            <button type="submit" disabled={loading}>
+                {loading ? 'Adding...' : 'Add Post'}
+            </button>
+            {error && <div className="text-danger mt-2">{error}</div>}
+            {success && <div className="text-success mt-2">{success}</div>}
         </form>
     );
 };

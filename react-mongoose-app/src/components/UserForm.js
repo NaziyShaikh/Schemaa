@@ -14,7 +14,7 @@ const UserForm = ({ onUserAdded }) => {
         setSuccess('');
         setLoading(true);
         try {
-            const response = await axios.post('http://localhost:5000/users', { name, email });
+            const response = await axios.post('https://schemaa.onrender.com/users', { name, email });
             onUserAdded(response.data);
             setName('');
             setEmail('');

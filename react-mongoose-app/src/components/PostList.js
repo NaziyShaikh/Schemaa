@@ -14,6 +14,7 @@ const PostList = ({ posts, onDeletePost }) => {
                         className="btn btn-danger btn-sm"
                         onClick={() => onDeletePost(post._id)}
                         aria-label={`Delete post titled ${post.title}`}
+                        type="button"
                     >
                         Delete
                     </button>
