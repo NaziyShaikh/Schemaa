@@ -17,7 +17,6 @@ const App = () => {
                 console.log('Fetched users:', response.data);
             } catch (error) {
                 console.error('Failed to fetch users:', error);
-                
             }
         };
 
@@ -26,9 +25,17 @@ const App = () => {
                 const response = await axios.get('https://schemaa.onrender.com/posts');
                 setPosts(response.data);
                 console.log('Fetched posts:', response.data);
+                
+                response.data.forEach(post => {
+                    console.log('Post details:', {
+                        postId: post._id,
+                        hasUser: !!post.user,
+                        userId: post.user ? post.user._id : 'No user ID',
+                        userName: post.user ? post.user.name : 'No name'
+                    });
+                });
             } catch (error) {
                 console.error('Failed to fetch posts:', error);
-                
             }
         };
 

@@ -8,7 +8,11 @@ const PostList = ({ posts, onDeletePost }) => {
                     <div>
                         <h3>{post.title}</h3>
                         <p>{post.content}</p>
-                        <strong>Author: {post.user ? post.user.name : 'Unknown author'}</strong>
+                        <div className="mt-2">
+                            <strong>Author Details:</strong>
+                            <p>User ID: {post.user ? post.user._id : 'No user ID'}</p>
+                            <p>Name: {post.user ? post.user.name : 'Unknown author'}</p>
+                        </div>
                     </div>
                     <button
                         className="btn btn-danger btn-sm"
