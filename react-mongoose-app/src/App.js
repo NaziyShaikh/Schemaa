@@ -11,15 +11,25 @@ const App = () => {
 
     useEffect(() => {
         const fetchUsers = async () => {
-            const response = await axios.get('http://localhost:5000/users');
-            setUsers(response.data);
-            console.log('Fetched users:', response.data);
+            try {
+                const response = await axios.get('https://schemaa.onrender.com/users');
+                setUsers(response.data);
+                console.log('Fetched users:', response.data);
+            } catch (error) {
+                console.error('Failed to fetch users:', error);
+                
+            }
         };
 
         const fetchPosts = async () => {
-            const response = await axios.get('http://localhost:5000/posts');
-            setPosts(response.data);
-            console.log('Fetched posts:', response.data);
+            try {
+                const response = await axios.get('https://schemaa.onrender.com/posts');
+                setPosts(response.data);
+                console.log('Fetched posts:', response.data);
+            } catch (error) {
+                console.error('Failed to fetch posts:', error);
+                
+            }
         };
 
         fetchUsers();
@@ -39,7 +49,7 @@ const App = () => {
     const handleDeletePost = async (postId) => {
         console.log(`Deleting post with id: ${postId}`);
         try {
-            await axios.delete(`http://localhost:5000/posts/${postId}`);
+            await axios.delete(`https://schemaa.onrender.com/posts/${postId}`);
             setPosts(posts.filter(post => post._id !== postId));
             console.log(`Post with id ${postId} deleted successfully`);
         } catch (error) {
