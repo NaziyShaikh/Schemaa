@@ -28,7 +28,7 @@ app.post('/users', async (req, res) => {
     } catch (error) {
         console.error('Error creating user:', error);
         if (error.code === 11000 && error.keyPattern && error.keyPattern.email) {
-            // Duplicate email error
+        
             return res.status(400).json({ error: 'Email already exists' });
         }
         res.status(500).json({ error: 'Failed to create user' });
@@ -54,10 +54,12 @@ app.delete('/posts/:id', async (req, res) => {
 
 app.post('/posts', async (req, res) => {
     try {
-        const { title, content, userId } = req.body;
-        const post = new Post({ title, content, user: userId });
+        const { title, content, user } = req.body;
+        const post = new Post({ title, content, user });
         await post.save();
-        res.status(201).json(post);
+        
+        const populatedPost = await Post.findById(post._id).populate('user');
+        res.status(201).json(populatedPost);
     } catch (error) {
         console.error('Error creating post:', error);
         res.status(500).json({ error: 'Failed to create post' });

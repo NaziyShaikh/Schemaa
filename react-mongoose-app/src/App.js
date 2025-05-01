@@ -48,9 +48,14 @@ const App = () => {
         console.log('User added:', newUser);
     };
 
-    const handlePostAdded = (newPost) => {
-        setPosts([...posts, newPost]);
-        console.log('Post added:', newPost);
+    const handlePostAdded = async (newPost) => {
+        try {
+            const response = await axios.get('https://schemaa.onrender.com/posts');
+            setPosts(response.data);
+            console.log('Updated posts with user data:', response.data);
+        } catch (error) {
+            console.error('Failed to fetch updated posts:', error);
+        }
     };
 
     const handleDeletePost = async (postId) => {
