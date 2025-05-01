@@ -57,7 +57,6 @@ app.post('/posts', async (req, res) => {
         const { title, content, user } = req.body;
         const post = new Post({ title, content, user });
         await post.save();
-        
         const populatedPost = await Post.findById(post._id).populate('user');
         res.status(201).json(populatedPost);
     } catch (error) {

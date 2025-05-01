@@ -15,18 +15,11 @@ const PostForm = ({ users, onPostAdded }) => {
         setSuccess('');
         setLoading(true);
         try {
-            
-            const userResponse = await axios.get(`https://schemaa.onrender.com/users/${userId}`);
-            const user = userResponse.data;
-            
-    
             const response = await axios.post('https://schemaa.onrender.com/posts', { 
                 title, 
                 content, 
-                user: user._id,
-                userObj: user  
+                user: userId
             });
-            
             onPostAdded(response.data);
             setTitle('');
             setContent('');
